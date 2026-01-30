@@ -33,7 +33,7 @@ This package works with data collected using Open Data Kit (ODK), an open-source
 ### Method 2: From GitHub 
 
 ```stata
-net install odklabel, from("https://github.com/samwel2000/odklabel")
+net install odklabel, from("https://raw.githubusercontent.com/samwel2000/odklabel/master/")
 ```
 ## Syntax
 
