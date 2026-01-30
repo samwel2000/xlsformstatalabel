@@ -1,0 +1,4 @@
+v 3
+d odklabel package repository
+d samwelgfrey@gmail.com, Ifakara Health Institute
+p odklabel Create variable and value labels from ODK XLSForm
