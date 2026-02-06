@@ -68,7 +68,7 @@ use "baseline_data.dta", clear
 do "Labelling_baseline.do"
 ```
 
-### Method 2: One-Step Process (Recommended)
+### Method 2: One-Step Process
 
 ```stata
 * Load your ODK dataset first
@@ -99,7 +99,7 @@ odklabel using "survey.xlsx", formname(baseline) case(lower) groupremove
 ### Example 4: Generate and apply labels immediately
 ```stata
 * Load your data first
-use "baseline_data.dta", clear
+import delimited "baseline_data.csv", clear
 
 * Generate and apply in one command
 odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do

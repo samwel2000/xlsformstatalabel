@@ -4,7 +4,7 @@
 *! Date: January 2026
 
 program define odklabel
-    version 14.0
+    version 13.0
     syntax using/, FORMname(string) [LABELColumn(string) SAVEPath(string) CASE(string) GROUPremove NOTEremove CAPture DO]
     
     * Set defaults
@@ -77,8 +77,59 @@ program define odklabel
 	di as text "________________________________________________________________"
 	di as text ""
     
+	*==========================================================================
+    * PART 1: REMOVING GROUPS IN VARIABLE NAMES
     *==========================================================================
-    * PART 1: LABELLING VARIABLES
+    if "`groupremove'" != "" {
+        quietly {
+            import excel "`using'", sheet("survey") case(lower) firstrow clear 
+            keep if index(type,"begin")
+            keep name 
+            
+            * Apply case transformation to variable names
+            if "`case'" == "lower" {
+                replace name = lower(name)
+            }
+            else if "`case'" == "upper" {
+                replace name = upper(name)
+            }
+            
+            count 
+            local novariables `r(N)'
+            
+            if `novariables' > 0 {
+                capture which sxpose
+                if _rc {
+                    noisily di as text "Installing sxpose..."
+                    ssc install sxpose
+                }
+                
+                sxpose, clear 
+                egen allvar = concat(_var1-_var`novariables'), punct(" ")
+                keep allvar
+                gen foreachcode = "foreach varname in " + allvar + " {" 
+                gen label_command_1 = "`cap_prefix'" + "renpfix " + "`" + "varname" + "'"
+                gen label_command_2 = "}"
+                
+                keep foreachcode label_command*
+                reshape long label_command_, i(foreachcode) j(_j)
+                
+                file open handle using "`savepath'/Labelling_`formname'.do", write text append
+                file write handle "" _n
+                file write handle "*****************************Removing group names*************************" _n
+                file write handle (foreachcode) _n
+                forvalues i = 1/`=_N' {
+                    file write handle (label_command[`i']) _n
+                } 
+                file close handle
+            }
+        }
+        di as text "✓ Group name removal code created"
+    }
+	
+	
+    *==========================================================================
+    * PART 2: LABELLING VARIABLES
     *==========================================================================
     quietly {
         import excel "`using'", sheet("survey") case(lower) firstrow clear 
@@ -116,7 +167,7 @@ program define odklabel
     di as text "✓ Variable labels created"
     
     *==========================================================================
-    * PART 2: LABELING VALUES OF VARIABLES (select_one)
+    * PART 3: LABELING VALUES OF VARIABLES (select_one)
     *==========================================================================
     quietly {
         import excel "`using'", sheet("survey") case(lower) firstrow clear 
@@ -177,56 +228,7 @@ program define odklabel
         file close handle
     }
     di as text "✓ Value labels created (select_one)"
-    
-    *==========================================================================
-    * PART 3: REMOVING GROUPS IN VARIABLE NAMES
-    *==========================================================================
-    if "`groupremove'" != "" {
-        quietly {
-            import excel "`using'", sheet("survey") case(lower) firstrow clear 
-            keep if index(type,"begin")
-            keep name 
-            
-            * Apply case transformation to variable names
-            if "`case'" == "lower" {
-                replace name = lower(name)
-            }
-            else if "`case'" == "upper" {
-                replace name = upper(name)
-            }
-            
-            count 
-            local novariables `r(N)'
-            
-            if `novariables' > 0 {
-                capture which sxpose
-                if _rc {
-                    noisily di as text "Installing sxpose..."
-                    ssc install sxpose
-                }
-                
-                sxpose, clear 
-                egen allvar = concat(_var1-_var`novariables'), punct(" ")
-                keep allvar
-                gen foreachcode = "foreach varname in " + allvar + " {" 
-                gen label_command_1 = "`cap_prefix'" + "renpfix " + "`" + "varname" + "'"
-                gen label_command_2 = "}"
-                
-                keep foreachcode label_command*
-                reshape long label_command_, i(foreachcode) j(_j)
-                
-                file open handle using "`savepath'/Labelling_`formname'.do", write text append
-                file write handle "" _n
-                file write handle "*****************************Removing group names*************************" _n
-                file write handle (foreachcode) _n
-                forvalues i = 1/`=_N' {
-                    file write handle (label_command[`i']) _n
-                } 
-                file close handle
-            }
-        }
-        di as text "✓ Group name removal code created"
-    }
+	
     
     *==========================================================================
     * PART 4: REMOVING NOTE TYPE VARIABLES FROM THE DATASET
