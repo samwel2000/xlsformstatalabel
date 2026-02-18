@@ -1,0 +1,16 @@
+v 3
+d xlsformstatalabel - Create variable and value labels from ODK XLSForm
+d
+d xlsformstatalabel package provides the xlsformlabel command which reads 
+d an ODK (Open Data Kit) XLSForm Excel file and generates a Stata do-file 
+d containing commands to label variables and values in datasets collected 
+d using that form. This automates the labeling process and ensures consistency 
+d between the ODK form design and the Stata dataset.
+d
+d Distribution-Date: 20260131
+d
+d Author: Samwel Lwambura
+d Support: samwelgfrey@gmail.com
+d
+f xlsformlabel.ado
+f xlsformlabel.sthlp

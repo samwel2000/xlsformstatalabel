@@ -1,4 +1,4 @@
 v 3
-d odklabel package repository
-d samwelgfrey@gmail.com, Ifakara Health Institute
-p odklabel Create variable and value labels from ODK XLSForm
+d xlsformstatalabel package repository
+d Samwel Lwambura, World Vision International Tanzania
+p xlsformstatalabel Create variable and value labels from ODK XLSForm using xlsformlabel command

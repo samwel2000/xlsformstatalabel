@@ -1,9 +1,9 @@
-*! odklabel v1.0.0
+*! xlsformstatalabel v1.0.0
 *! Creates variable and value labels from ODK XLSForm
 *! Author: Samwel Lwambura (samwelgfrey@gmail.com)
 *! Date: January 2026
 
-program define odklabel
+program define xlsformlabel
     version 13.0
     syntax using/, FORMname(string) [LABELColumn(string) SAVEPath(string) CASE(string) GROUPremove NOTEremove CAPture DO]
     

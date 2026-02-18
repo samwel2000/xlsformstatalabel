@@ -1,14 +1,17 @@
-# odklabel - ODK XLSForm Labeling for Stata
+# xlsformstatalabel - ODK XLSForm Labeling for Stata
+
+**Package name:** xlsformstatalabel  
+**Command name:** xlsformlabel
 
 ## About ODK
 
 This package works with data collected using Open Data Kit (ODK), an open-source suite of tools for mobile data collection. ODK is maintained by Get ODK Inc. and the ODK community. Learn more at https://getodk.org
 
-**odklabel is an independent, community-created tool and is not officially affiliated with or endorsed by Get ODK Inc.**
+**xlsformlabel is an independent, community-created tool and is not officially affiliated with or endorsed by Get ODK Inc.**
 
 ## Description
 
-`odklabel` is a lightweight Stata package that automatically generates variable and value labels for datasets collected using ODK by reading the XLSForm Excel file. It focuses solely on labeling already-imported data, making it fast and flexible for modern ODK workflows.
+The `xlsformstatalabel` package provides the `xlsformlabel` command, which automatically generates variable and value labels for datasets collected using ODK by reading the XLSForm Excel file. It focuses solely on labeling already-imported data, making it fast and flexible for modern ODK workflows.
 
 ## Features
 
@@ -20,29 +23,30 @@ This package works with data collected using Open Data Kit (ODK), an open-source
 
 ## Installation
 
-### Method 1: Manual Installation
-
-1. Download all files: `odklabel.ado`, `odklabel.sthlp`, and `odklabel.pkg`
-2. Find your Stata personal ado directory by typing in Stata:
-   ```stata
-   sysdir
-   ```
-3. Copy the files to the PLUS directory shown
-4. Alternatively, place them in your current working directory
-
-### Method 2: From GitHub 
+### Method 1: From GitHub 
 
 ```stata
-net install odklabel, from("https://raw.githubusercontent.com/samwel2000/odklabel/master/")
+net install xlsformstatalabel, from("https://raw.githubusercontent.com/samwel2000/xlsformstatalabel/master/")
 ```
+
+### Method 2: Manual Installation
+
+1. Download `xlsformlabel.ado`, `xlsformlabel.sthlp`, and `xlsformlabel.pkg`
+2. Find your Stata personal ado directory: `sysdir`
+3. Copy files to the PLUS directory shown
+4. Alternatively, place in your current working directory
+
+After installation, use the command `xlsformlabel` (not xlsformstatalabel).
 ## Syntax
 
+**Command:** `xlsformlabel`
+
 ```stata
-odklabel using filename, formname(string) [labelcolumn(string) savepath(string) 
-    case(preserve|lower|upper) groupremove noteremove capture do]
+xlsformlabel using filename, formname(string) [options]
 ```
 
-**Required:** `formname(string)` - Name of the ODK form (used in output filename)
+**Required:**
+- `formname(string)` - Name of the ODK form (used in output filename)
 
 **Optional:**
 - `labelcolumn(string)` - Label column name in XLSForm (default: "label")
@@ -59,7 +63,7 @@ odklabel using filename, formname(string) [labelcolumn(string) savepath(string)
 
 ```stata
 * Generate labeling do-file from XLSForm
-odklabel using "baseline_survey.xlsx", formname(baseline)
+xlsformlabel using "baseline_survey.xlsx", formname(baseline)
 
 * Load your ODK dataset
 use "baseline_data.dta", clear
@@ -75,25 +79,25 @@ do "Labelling_baseline.do"
 use "baseline_data.dta", clear
 
 * Generate and immediately apply labels
-odklabel using "baseline_survey.xlsx", formname(baseline) case(lower) capture do
+xlsformlabel using "baseline_survey.xlsx", formname(baseline) case(lower) capture do
 ```
 
 ## Examples
 
 ### Example 1: Basic labeling
 ```stata
-odklabel using "survey.xlsx", formname(baseline)
+xlsformlabel using "survey.xlsx", formname(baseline)
 ```
 
 ### Example 2: Multiple language support
 ```stata
 * If your XLSForm has label::English, use labelenglish (remove :: and special chars)
-odklabel using "survey.xlsx", formname(baseline) labelcolumn(labelenglish)
+xlsformlabel using "survey.xlsx", formname(baseline) labelcolumn(labelenglish)
 ```
 
 ### Example 3: Lowercase variable names with group removal
 ```stata
-odklabel using "survey.xlsx", formname(baseline) case(lower) groupremove
+xlsformlabel using "survey.xlsx", formname(baseline) case(lower) groupremove
 ```
 
 ### Example 4: Generate and apply labels immediately
@@ -102,7 +106,7 @@ odklabel using "survey.xlsx", formname(baseline) case(lower) groupremove
 import delimited "baseline_data.csv", clear
 
 * Generate and apply in one command
-odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do
+xlsformlabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do
 ```
 
 ### Example 5: Complete workflow (two-step)
@@ -111,7 +115,7 @@ odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do
 import delimited "baseline_data.csv", clear
 
 * Step 2: Generate labeling script
-odklabel using "baseline_form.xlsx", formname(baseline) ///
+xlsformlabel using "baseline_form.xlsx", formname(baseline) ///
     case(lower) groupremove noteremove capture
 
 * Step 3: Apply labels
@@ -127,7 +131,7 @@ save "baseline_labeled.dta", replace
 import delimited "baseline_data.csv", clear
 
 * Step 2: Generate and apply labels in one command
-odklabel using "baseline_form.xlsx", formname(baseline) ///
+xlsformlabel using "baseline_form.xlsx", formname(baseline) ///
     case(lower) groupremove noteremove capture do
 
 * Step 3: Save labeled dataset
@@ -136,7 +140,7 @@ save "baseline_labeled.dta", replace
 
 ### Example 7: All options
 ```stata
-odklabel using "endline_survey.xlsx", formname(endline) ///
+xlsformlabel using "endline_survey.xlsx", formname(endline) ///
     labelcolumn(label::English) ///
     savepath("C:/Projects/DoFiles") ///
     case(lower) ///
@@ -180,13 +184,14 @@ Initial code by Charles Festo. Modified and packaged by Samwel Lwambura with add
 
 ## Author
 
-Samwel Lwakatare  
-Ifakara Health Institute 
-samwelgfrey@gmail.com
+Samwel Lwambura  
+Data Analyst, World Vision International Tanzania  
+Email: samwelgfrey@gmail.com  
+GitHub: https://github.com/samwel2000
 
 ## Support
 
-GitHub Issues: https://github.com/samwel2000/odklabel/issues
+GitHub Issues: https://github.com/samwel2000/xlsformstatalabel/issues
 
 ## License
 

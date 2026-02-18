@@ -1,21 +1,21 @@
 {smcl}
 {* *! version 1.0.0  31jan2026}{...}
-{viewerjumpto "Syntax" "odklabel##syntax"}{...}
-{viewerjumpto "Description" "odklabel##description"}{...}
-{viewerjumpto "Options" "odklabel##options"}{...}
-{viewerjumpto "Examples" "odklabel##examples"}{...}
-{viewerjumpto "Author" "odklabel##author"}{...}
+{viewerjumpto "Syntax" "xlsformlabel##syntax"}{...}
+{viewerjumpto "Description" "xlsformlabel##description"}{...}
+{viewerjumpto "Options" "xlsformlabel##options"}{...}
+{viewerjumpto "Examples" "xlsformlabel##examples"}{...}
+{viewerjumpto "Author" "xlsformlabel##author"}{...}
 {title:Title}
 
 {phang}
-{bf:odklabel} {hline 2} Create variable and value labels from ODK XLSForm
+{bf:xlsformlabel} {hline 2} Create variable and value labels from ODK XLSForm
 
 
 {marker syntax}{...}
 {title:Syntax}
 
 {p 8 17 2}
-{cmd:odklabel}
+{cmd:xlsformlabel}
 {cmd:using} {it:filename}{cmd:,}
 {cmdab:form:name(}{it:string}{cmd:)}
 [{it:options}]
@@ -42,7 +42,7 @@
 {title:Description}
 
 {pstd}
-{cmd:odklabel} reads an ODK (Open Data Kit) XLSForm Excel file and generates a Stata do-file 
+{cmd:xlsformlabel} reads an ODK (Open Data Kit) XLSForm Excel file and generates a Stata do-file 
 containing commands to label variables and values in datasets collected using that form. This 
 automates the labeling process and ensures consistency between the ODK form design and the 
 Stata dataset.
@@ -110,7 +110,7 @@ running. Useful when the dataset might not contain all variables defined in the 
 
 {phang}
 {cmd:do} executes the generated labeling script immediately on the current dataset in memory. 
-When this option is specified, {cmd:odklabel} will automatically run the created do-file and 
+When this option is specified, {cmd:xlsformlabel} will automatically run the created do-file and 
 apply all labels to your data. If not specified, the do-file is created but you must run it 
 manually. This option is convenient for streamlined workflows where you want to generate and 
 apply labels in one step.
@@ -120,32 +120,32 @@ apply labels in one step.
 {title:Examples}
 
 {phang}{bf:Basic usage:}{p_end}
-{phang2}{cmd:. odklabel using "baseline_survey.xlsx", formname(baseline)}{p_end}
+{phang2}{cmd:. xlsformlabel using "baseline_survey.xlsx", formname(baseline)}{p_end}
 
 {phang}{bf:Specify a different label column:}{p_end}
-{phang2}{cmd:. odklabel using "survey.xlsx", formname(endline) labelcolumn(label::English)}{p_end}
+{phang2}{cmd:. xlsformlabel using "survey.xlsx", formname(endline) labelcolumn(label::English)}{p_end}
 
 {phang}{bf:Save output to a specific directory:}{p_end}
-{phang2}{cmd:. odklabel using "form.xlsx", formname(midline) savepath("C:/DoFiles")}{p_end}
+{phang2}{cmd:. xlsformlabel using "form.xlsx", formname(midline) savepath("C:/DoFiles")}{p_end}
 
 {phang}{bf:Convert variable names to lowercase:}{p_end}
-{phang2}{cmd:. odklabel using "form.xlsx", formname(baseline) case(lower)}{p_end}
+{phang2}{cmd:. xlsformlabel using "form.xlsx", formname(baseline) case(lower)}{p_end}
 
 {phang}{bf:Include group removal and note removal:}{p_end}
-{phang2}{cmd:. odklabel using "form.xlsx", formname(baseline) groupremove noteremove}{p_end}
+{phang2}{cmd:. xlsformlabel using "form.xlsx", formname(baseline) groupremove noteremove}{p_end}
 
 {phang}{bf:Add capture prefix to all commands:}{p_end}
-{phang2}{cmd:. odklabel using "form.xlsx", formname(baseline) capture}{p_end}
+{phang2}{cmd:. xlsformlabel using "form.xlsx", formname(baseline) capture}{p_end}
 
 {phang}{bf:Generate and immediately apply labels:}{p_end}
-{phang2}{cmd:. odklabel using "form.xlsx", formname(baseline) do}{p_end}
+{phang2}{cmd:. xlsformlabel using "form.xlsx", formname(baseline) do}{p_end}
 
 {phang}{bf:One-step workflow - load data and apply labels:}{p_end}
 {phang2}{cmd:. use "baseline_data.dta", clear}{p_end}
-{phang2}{cmd:. odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do}{p_end}
+{phang2}{cmd:. xlsformlabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do}{p_end}
 
 {phang}{bf:Complete example with all options:}{p_end}
-{phang2}{cmd:. odklabel using "baseline_survey.xlsx", formname(baseline) ///}{p_end}
+{phang2}{cmd:. xlsformlabel using "baseline_survey.xlsx", formname(baseline) ///}{p_end}
 {phang3}{cmd:labelcolumn(label::English) savepath("./dofiles") ///}{p_end}
 {phang3}{cmd:case(lower) groupremove noteremove capture}{p_end}
 
@@ -153,13 +153,13 @@ apply labels in one step.
 {title:Workflow}
 
 {pstd}
-Typical workflow for using {cmd:odklabel}:
+Typical workflow for using {cmd:xlsformlabel}:
 
 {pstd}
 {bf:Method 1: Two-step process}
 
 {phang2}1. Export your ODK data to Stata (.dta) or CSV format{p_end}
-{phang2}2. Run {cmd:odklabel} on your XLSForm to create the labeling do-file{p_end}
+{phang2}2. Run {cmd:xlsformlabel} on your XLSForm to create the labeling do-file{p_end}
 {phang2}3. Load your ODK dataset in Stata{p_end}
 {phang2}4. Run the generated labeling do-file to apply all labels{p_end}
 
@@ -167,20 +167,20 @@ Typical workflow for using {cmd:odklabel}:
 Example:
 
 {phang2}{cmd:. import delimited "baseline_data.csv", clear}{p_end}
-{phang2}{cmd:. odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture}{p_end}
+{phang2}{cmd:. xlsformlabel using "baseline_form.xlsx", formname(baseline) case(lower) capture}{p_end}
 {phang2}{cmd:. do "Labelling_baseline.do"}{p_end}
 
 {pstd}
 {bf:Method 2: One-step process (using {cmd:do} option)}
 
 {phang2}1. Load your ODK dataset in Stata{p_end}
-{phang2}2. Run {cmd:odklabel} with the {cmd:do} option to generate and apply labels immediately{p_end}
+{phang2}2. Run {cmd:xlsformlabel} with the {cmd:do} option to generate and apply labels immediately{p_end}
 
 {pstd}
 Example:
 
 {phang2}{cmd:. use "baseline_data.dta", clear}{p_end}
-{phang2}{cmd:. odklabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do}{p_end}
+{phang2}{cmd:. xlsformlabel using "baseline_form.xlsx", formname(baseline) case(lower) capture do}{p_end}
 
 
 {title:Requirements}
@@ -196,7 +196,7 @@ Example:
 {title:Stored results}
 
 {pstd}
-{cmd:odklabel} does not store any results in {cmd:r()} or {cmd:e()}. It creates a do-file 
+{cmd:xlsformlabel} does not store any results in {cmd:r()} or {cmd:e()}. It creates a do-file 
 on disk that can be executed separately.
 
 
