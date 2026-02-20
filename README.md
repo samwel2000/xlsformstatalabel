@@ -185,7 +185,6 @@ Initial code by Charles Festo. Modified and packaged by Samwel Lwambura with add
 ## Author
 
 Samwel Lwambura  
-Data Analyst, World Vision International Tanzania  
 Email: samwelgfrey@gmail.com  
 GitHub: https://github.com/samwel2000
 
